@@ -40,13 +40,21 @@ def download_models():
         torch.cuda.empty_cache()
         logger.info("Sana Sprint model downloaded successfully!")
         
-        # Download Guardrail model (NSFW Prompt Detector)
-        logger.info("Downloading NSFW Prompt Detector model...")
-        guardrail_pipe = pipeline("text-classification", model="ezb/NSFW-Prompt-Detector")
-        del guardrail_pipe
+        # Download Guardrail model (ShieldGemma-2B Safety Model)
+        logger.info("Downloading ShieldGemma-2B safety model...")
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        
+        # Download the tokenizer and model
+        tokenizer = AutoTokenizer.from_pretrained("google/shieldgemma-2b")
+        model = AutoModelForCausalLM.from_pretrained(
+            "google/shieldgemma-2b",
+            torch_dtype=torch.bfloat16
+        )
+        
+        del tokenizer, model
         gc.collect()
         torch.cuda.empty_cache()
-        logger.info("NSFW Prompt Detector model downloaded successfully!")
+        logger.info("ShieldGemma-2B safety model downloaded successfully!")
         
         logger.info("All models downloaded successfully!")
         return True
