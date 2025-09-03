@@ -17,7 +17,6 @@
 
 import logging
 from transformers import pipeline
-import config
 
 logger = logging.getLogger(__name__)
 
